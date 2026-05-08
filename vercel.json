@@ -3,10 +3,6 @@
     {
       "source": "/api/fortnite",
       "destination": "https://fortnite-api.com/v2/shop"
-    },
-    {
-      "source": "/api/images/:path*",
-      "destination": "https://fortnite-api.com/images/:path*"
     }
   ]
 }

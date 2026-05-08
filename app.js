@@ -149,13 +149,14 @@ function renderShop(shopData) {
 
         let vbucksIcon = shopData.vbuckIcon || 'https://fortnite-api.com/images/vbuck.png';
 
-        // Redireciona o tráfego das imagens para o proxy do Vercel se estiver em produção
+        // Usar um CDN Proxy Público (wsrv.nl) para as imagens se não for local, 
+        // para contornar definitivamente o bloqueio de Hotlink (Cloudflare 403) da Epic.
         if (!isLocal) {
-            if (imageSrc.startsWith('https://fortnite-api.com/images/')) {
-                imageSrc = imageSrc.replace('https://fortnite-api.com/images/', '/api/images/');
+            if (imageSrc && !imageSrc.includes('placeholder.com')) {
+                imageSrc = `https://wsrv.nl/?url=${encodeURIComponent(imageSrc)}`;
             }
-            if (vbucksIcon.startsWith('https://fortnite-api.com/images/')) {
-                vbucksIcon = vbucksIcon.replace('https://fortnite-api.com/images/', '/api/images/');
+            if (vbucksIcon) {
+                vbucksIcon = `https://wsrv.nl/?url=${encodeURIComponent(vbucksIcon)}`;
             }
         }
 
