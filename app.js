@@ -147,7 +147,17 @@ function renderShop(shopData) {
                        firstItem?.images?.smallIcon || 
                        'https://via.placeholder.com/280x280.png?text=Sem+Imagem';
 
-        const vbucksIcon = shopData.vbuckIcon || 'https://fortnite-api.com/images/vbuck.png';
+        let vbucksIcon = shopData.vbuckIcon || 'https://fortnite-api.com/images/vbuck.png';
+
+        // Redireciona o tráfego das imagens para o proxy do Vercel se estiver em produção
+        if (!isLocal) {
+            if (imageSrc.startsWith('https://fortnite-api.com/images/')) {
+                imageSrc = imageSrc.replace('https://fortnite-api.com/images/', '/api/images/');
+            }
+            if (vbucksIcon.startsWith('https://fortnite-api.com/images/')) {
+                vbucksIcon = vbucksIcon.replace('https://fortnite-api.com/images/', '/api/images/');
+            }
+        }
 
         const card = document.createElement('div');
         card.className = `item-card rarity-${rarityValue}`;
