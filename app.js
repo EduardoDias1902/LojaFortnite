@@ -101,7 +101,28 @@ function renderShop(shopData) {
     const skins = [];
     const bundles = [];
     const emotes = [];
-    const sidekicks = [];
+    const pickaxes = [];
+    const gliders = [];
+    const backpacks = [];
+    const shoes = [];
+    const others = [];
+    
+    // Pesos de raridade (quanto maior, mais pro topo)
+    const rarityWeights = {
+        'common': 1,
+        'uncommon': 2,
+        'rare': 3,
+        'epic': 4,
+        'legendary': 5,
+        'mythic': 6,
+        'exotic': 7
+    };
+    
+    const getRarityWeight = (rarityVal) => {
+        // Se a raridade não estiver na lista convencional (ex: Marvel, Ícones, Star Wars, Gaming Legends)
+        // Damos um peso muito alto (100) para que fique na frente das lendárias.
+        return rarityWeights[rarityVal] || 100;
+    };
 
     allEntries.forEach((entry, index) => {
         if (!entry) return; // Segurança caso a API retorne um item nulo
@@ -184,30 +205,58 @@ function renderShop(shopData) {
         const isBundle = bundle || typeStr.includes('pacote') || typeStr.includes('bundle');
         const isSkin = typeStr.includes('traje') || typeStr.includes('outfit');
         const isEmote = typeStr.includes('gesto') || typeStr.includes('emote') || typeStr.includes('dança');
+        const isPickaxe = typeStr.includes('picareta') || typeStr.includes('ferramenta') || typeStr.includes('pickaxe');
+        const isGlider = typeStr.includes('asa-delta') || typeStr.includes('glider');
+        const isBackpack = typeStr.includes('acessório para as costas') || typeStr.includes('mochila') || typeStr.includes('back bling');
+        const isShoes = typeStr.includes('sapato') || typeStr.includes('tênis') || typeStr.includes('chuteira') || typeStr.includes('kicks');
         
-        if (isBundle) bundles.push(card);
-        else if (isSkin) skins.push(card);
-        else if (isEmote) emotes.push(card);
-        else sidekicks.push(card);
+        const itemObj = {
+            card: card,
+            weight: getRarityWeight(rarityValue),
+            rarityName: rarityValue,
+            typeName: type
+        };
+        
+        if (isBundle) bundles.push(itemObj);
+        else if (isSkin) skins.push(itemObj);
+        else if (isShoes) shoes.push(itemObj);
+        else if (isEmote) emotes.push(itemObj);
+        else if (isPickaxe) pickaxes.push(itemObj);
+        else if (isGlider) gliders.push(itemObj);
+        else if (isBackpack) backpacks.push(itemObj);
+        else others.push(itemObj);
     });
 
     // Função para adicionar uma seção inteira ao fragmento
-    const appendSection = (title, cardsArray) => {
-        if (cardsArray.length === 0) return;
+    const appendSection = (title, itemsArray) => {
+        if (itemsArray.length === 0) return;
+        
+        // Ordena primeiro pelo peso (maior pro menor). 
+        // Em caso de empate (mesmo peso), ordena pelo nome da raridade.
+        // Em caso de segundo empate, agrupa os itens de tipo idêntico juntos (ex: agrupar guitarras com guitarras).
+        itemsArray.sort((a, b) => {
+            if (b.weight !== a.weight) return b.weight - a.weight;
+            if (a.rarityName !== b.rarityName) return a.rarityName.localeCompare(b.rarityName);
+            return a.typeName.localeCompare(b.typeName);
+        });
         
         const titleEl = document.createElement('h2');
         titleEl.className = 'section-title';
         titleEl.textContent = title;
         fragment.appendChild(titleEl);
         
-        cardsArray.forEach(card => fragment.appendChild(card));
+        itemsArray.forEach(item => fragment.appendChild(item.card));
     };
 
     // Ordem de exibição na loja
     appendSection('Pacotes', bundles);
     appendSection('Trajes (Skins)', skins);
+    appendSection('Sapatos (Kicks)', shoes);
     appendSection('Gestos (Emotes)', emotes);
-    appendSection('Acessórios e Outros (Sidekicks)', sidekicks);
+    appendSection('Picaretas', pickaxes);
+    appendSection('Asas-Deltas', gliders);
+    appendSection('Mochilas', backpacks);
+    appendSection('Acessórios e Outros', others);
 
     container.appendChild(fragment);
 
