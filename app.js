@@ -7,6 +7,12 @@ const API_URL = isLocal
 document.addEventListener('DOMContentLoaded', () => {
     fetchShop();
     startCountdown();
+    
+    // Configura o botão de voltar
+    const btnBack = document.getElementById('btn-back');
+    if (btnBack) {
+        btnBack.addEventListener('click', closeItemDetail);
+    }
 });
 
 async function fetchShop() {
@@ -200,6 +206,23 @@ function renderShop(shopData) {
             </div>
         `;
         
+        // Adiciona evento de clique para abrir os detalhes
+        card.addEventListener('click', () => {
+            const desc = firstItem?.description || firstItem?.itemDescription || bundle?.info || bundle?.description || '';
+            const set = firstItem?.set?.value || '';
+            
+            showItemDetail({
+                name,
+                type,
+                description: typeof desc === 'string' ? desc : desc.value || 'Nenhuma descrição disponível.',
+                set,
+                price: finalPrice,
+                image: imageSrc,
+                vbuck: vbucksIcon,
+                rarity: rarityValue
+            });
+        });
+        
         // Lógica de agrupamento baseada no tipo do item
         const typeStr = type.toLowerCase();
         const isBundle = bundle || typeStr.includes('pacote') || typeStr.includes('bundle');
@@ -269,6 +292,62 @@ function renderShop(shopData) {
 function showError(msg) {
     const loader = document.getElementById('loader');
     loader.innerHTML = `<p style="color: #ff4757; font-size: 1.2rem; text-align: center;">${msg}</p>`;
+}
+
+function showItemDetail(item) {
+    // Esconde a loja
+    document.getElementById('shop-container').classList.add('hidden');
+    document.querySelector('.hero-header').classList.add('hidden');
+    
+    // Mostra os detalhes
+    const detailView = document.getElementById('item-detail-view');
+    detailView.classList.remove('hidden');
+    
+    // Preenche os dados
+    document.getElementById('detail-name').textContent = item.name;
+    document.getElementById('detail-type').textContent = item.type;
+    document.getElementById('detail-description').textContent = item.description;
+    document.getElementById('detail-price').textContent = item.price;
+    document.getElementById('detail-image').src = item.image;
+    document.getElementById('detail-vbuck').src = item.vbuck;
+    
+    const setEl = document.getElementById('detail-set');
+    if (item.set) {
+        setEl.textContent = `PARTE DO CONJUNTO ${item.set}`;
+    } else {
+        setEl.textContent = '';
+    }
+    
+    // Aplica o brilho da raridade na imagem principal
+    const colors = {
+        common: '#b1b1b1',
+        uncommon: '#8be04e',
+        rare: '#4dbbf3',
+        epic: '#b466f8',
+        legendary: '#f49f3e',
+        marvelseries: '#ed1c24',
+        darkseries: '#ff00ff',
+        dcseries: '#5475c6',
+        iconsseries: '#31b7b7',
+        gaminglegendsseries: '#4a259c',
+        starwarsseries: '#ffffff',
+        mythic: '#ffd700'
+    };
+    
+    const glowColor = colors[item.rarity] || colors['common'];
+    document.getElementById('detail-image').style.filter = `drop-shadow(0 0 50px ${glowColor})`;
+    document.getElementById('detail-name').style.color = glowColor;
+    
+    // Rola para o topo da tela
+    window.scrollTo(0, 0);
+    detailView.scrollTo(0, 0);
+}
+
+function closeItemDetail() {
+    // Esconde detalhes e mostra loja
+    document.getElementById('item-detail-view').classList.add('hidden');
+    document.getElementById('shop-container').classList.remove('hidden');
+    document.querySelector('.hero-header').classList.remove('hidden');
 }
 
 function startCountdown() {
