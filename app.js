@@ -1,4 +1,8 @@
-const API_URL = 'https://fortnite-api.com/v2/shop?language=pt-BR';
+// Determina se está rodando localmente (arquivo) ou no Vercel (servidor) para evitar erro de CORS
+const isLocal = window.location.protocol === 'file:' || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+const API_URL = isLocal 
+    ? 'https://fortnite-api.com/v2/shop?language=pt-BR' 
+    : '/api/fortnite?language=pt-BR';
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchShop();

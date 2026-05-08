@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/fortnite",
+      "destination": "https://fortnite-api.com/v2/shop"
+    }
+  ]
+}
