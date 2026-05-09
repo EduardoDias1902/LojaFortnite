@@ -189,7 +189,6 @@ function renderShop(shopData) {
 
         const card = document.createElement('div');
         card.className = `item-card rarity-${rarityValue}`;
-        card.style.animationDelay = `${(index % 20) * 0.05}s`;
         
         card.innerHTML = `
             <div class="item-image-container">
@@ -250,6 +249,9 @@ function renderShop(shopData) {
         else others.push(itemObj);
     });
 
+    // Variável para manter o controle do atraso sequencial da animação em toda a loja
+    let globalIndex = 0;
+
     // Função para adicionar uma seção inteira ao fragmento
     const appendSection = (title, itemsArray) => {
         if (itemsArray.length === 0) return;
@@ -268,7 +270,12 @@ function renderShop(shopData) {
         titleEl.textContent = title;
         fragment.appendChild(titleEl);
         
-        itemsArray.forEach(item => fragment.appendChild(item.card));
+        itemsArray.forEach(item => {
+            // Aplica a animação em cascata (esquerda p/ direita) na ordem final correta
+            item.card.style.animationDelay = `${(globalIndex % 50) * 0.05}s`;
+            fragment.appendChild(item.card);
+            globalIndex++;
+        });
     };
 
     // Ordem de exibição na loja
