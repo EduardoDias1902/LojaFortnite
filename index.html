@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loja Fortnite | Hoje</title>
-    <!-- Modern fonts for a premium look -->
+    <!-- Modern and rustic fonts for a premium look -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Teko:wght@500;700&family=Cinzel:wght@400;700;900&family=Arvo:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <meta name="description" content="Confira os cosméticos e pacotes da Loja de Itens do Fortnite de hoje.">
 </head>
@@ -24,6 +24,11 @@
     </header>
 
     <main>
+        <nav class="rustic-nav">
+            <button id="tab-shop" class="nav-tab active">🛒 LOJA DE ITENS</button>
+            <button id="tab-news" class="nav-tab">📰 NOTÍCIAS DO JOGO</button>
+        </nav>
+
         <div id="loader" class="loader-container">
             <div class="spinner"></div>
             <p>Carregando cosméticos...</p>
@@ -31,6 +36,22 @@
         
         <section id="shop-container" class="shop-grid">
             <!-- Items injected by JS -->
+        </section>
+
+        <section id="news-container" class="news-view hidden">
+            <div class="news-filters">
+                <button class="news-filter-btn active" data-category="all">Tudo</button>
+                <button class="news-filter-btn" data-category="br">Battle Royale</button>
+                <button class="news-filter-btn" data-category="stw">Salvar o Mundo</button>
+                <button class="news-filter-btn" data-category="creative">Criativo</button>
+            </div>
+            <div id="news-loader" class="loader-container hidden">
+                <div class="spinner"></div>
+                <p>Buscando novidades do Fortnite...</p>
+            </div>
+            <div id="news-grid" class="news-grid">
+                <!-- News cards injected by JS -->
+            </div>
         </section>
 
         <section id="item-detail-view" class="detail-view hidden">

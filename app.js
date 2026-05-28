@@ -4,9 +4,18 @@ const API_URL = isLocal
     ? 'https://fortnite-api.com/v2/shop?language=pt-BR' 
     : '/api/fortnite?language=pt-BR';
 
+const API_NEWS_URL = isLocal 
+    ? 'https://fortnite-api.com/v2/news?language=pt-BR' 
+    : '/api/fortnite-news?language=pt-BR';
+
+let newsData = null;
+let activeFilter = 'all';
+
 document.addEventListener('DOMContentLoaded', () => {
     fetchShop();
     startCountdown();
+    setupNavigation();
+    setupNewsFilters();
     
     // Configura o botão de voltar
     const btnBack = document.getElementById('btn-back');
@@ -38,17 +47,24 @@ async function fetchShop() {
         if (!response.ok) throw new Error('Network response was not ok');
         responseData = await response.json();
     } catch (error) {
-        console.warn("Primary API fetch failed, trying fallback...", error);
-        // Fallback rápido e seguro
+        console.warn("Primary API fetch failed, trying CodeTabs proxy...", error);
         try {
-            const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(API_URL);
+            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(API_URL);
             const proxyResponse = await fetchWithTimeout(proxyUrl);
-            if (!proxyResponse.ok) throw new Error('Proxy network response was not ok');
+            if (!proxyResponse.ok) throw new Error('CodeTabs proxy response was not ok');
             responseData = await proxyResponse.json();
-        } catch (proxyError) {
-            console.error("Proxy fetch error:", proxyError);
-            showError("A API do Fortnite está indisponível no momento. Tente novamente mais tarde.");
-            return;
+        } catch (codeTabsError) {
+            console.warn("CodeTabs proxy failed, trying AllOrigins proxy...", codeTabsError);
+            try {
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(API_URL);
+                const proxyResponse = await fetchWithTimeout(proxyUrl);
+                if (!proxyResponse.ok) throw new Error('AllOrigins proxy response was not ok');
+                responseData = await proxyResponse.json();
+            } catch (allOriginsError) {
+                console.error("All proxies failed:", allOriginsError);
+                showError("A API do Fortnite está indisponível no momento. Tente novamente mais tarde.");
+                return;
+            }
         }
     }
 
@@ -351,10 +367,15 @@ function showItemDetail(item) {
 }
 
 function closeItemDetail() {
-    // Esconde detalhes e mostra loja
+    // Esconde detalhes
     document.getElementById('item-detail-view').classList.add('hidden');
-    document.getElementById('shop-container').classList.remove('hidden');
-    document.querySelector('.hero-header').classList.remove('hidden');
+    
+    // Só mostra a loja e o cabeçalho se a aba ativa for a da loja
+    const tabShop = document.getElementById('tab-shop');
+    if (tabShop && tabShop.classList.contains('active')) {
+        document.getElementById('shop-container').classList.remove('hidden');
+        document.querySelector('.hero-header').classList.remove('hidden');
+    }
 }
 
 function startCountdown() {
@@ -388,4 +409,180 @@ function startCountdown() {
 
     updateTimer();
     setInterval(updateTimer, 1000);
+}
+
+function setupNavigation() {
+    const tabShop = document.getElementById('tab-shop');
+    const tabNews = document.getElementById('tab-news');
+    
+    const shopContainer = document.getElementById('shop-container');
+    const newsContainer = document.getElementById('news-container');
+    const countdownContainer = document.getElementById('countdown-container');
+    const dateDisplay = document.getElementById('date-display');
+    
+    if (tabShop && tabNews) {
+        tabShop.addEventListener('click', () => {
+            tabShop.classList.add('active');
+            tabNews.classList.remove('active');
+            
+            shopContainer.classList.remove('hidden');
+            newsContainer.classList.add('hidden');
+            if (countdownContainer) countdownContainer.classList.remove('hidden');
+            if (dateDisplay) dateDisplay.classList.remove('hidden');
+            
+            closeItemDetail();
+        });
+        
+        tabNews.addEventListener('click', () => {
+            tabNews.classList.add('active');
+            tabShop.classList.remove('active');
+            
+            shopContainer.classList.add('hidden');
+            newsContainer.classList.remove('hidden');
+            if (countdownContainer) countdownContainer.classList.add('hidden');
+            if (dateDisplay) dateDisplay.classList.add('hidden');
+            
+            closeItemDetail();
+            
+            if (!newsData) {
+                fetchNews();
+            }
+        });
+    }
+}
+
+function setupNewsFilters() {
+    const filterButtons = document.querySelectorAll('.news-filter-btn');
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            filterButtons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            activeFilter = btn.getAttribute('data-category');
+            renderNews();
+        });
+    });
+}
+
+async function fetchNews() {
+    const loader = document.getElementById('news-loader');
+    const grid = document.getElementById('news-grid');
+    
+    if (loader) loader.classList.remove('hidden');
+    if (grid) grid.innerHTML = '';
+    
+    const fetchWithTimeout = async (url, ms = 10000) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), ms);
+        try {
+            const response = await fetch(url, { signal: controller.signal });
+            clearTimeout(timeoutId);
+            return response;
+        } catch (error) {
+            clearTimeout(timeoutId);
+            throw error;
+        }
+    };
+    
+    let responseData = null;
+    
+    try {
+        const response = await fetchWithTimeout(API_NEWS_URL);
+        if (!response.ok) throw new Error('News network response was not ok');
+        responseData = await response.json();
+    } catch (error) {
+        console.warn("Primary News API fetch failed, trying CodeTabs proxy...", error);
+        try {
+            const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=' + encodeURIComponent(API_NEWS_URL);
+            const proxyResponse = await fetchWithTimeout(proxyUrl);
+            if (!proxyResponse.ok) throw new Error('CodeTabs proxy response was not ok');
+            responseData = await proxyResponse.json();
+        } catch (codeTabsError) {
+            console.warn("CodeTabs proxy failed, trying AllOrigins proxy...", codeTabsError);
+            try {
+                const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(API_NEWS_URL);
+                const proxyResponse = await fetchWithTimeout(proxyUrl);
+                if (!proxyResponse.ok) throw new Error('AllOrigins proxy response was not ok');
+                responseData = await proxyResponse.json();
+            } catch (allOriginsError) {
+                console.error("All proxies failed for news:", allOriginsError);
+                if (loader) loader.classList.add('hidden');
+                if (grid) grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; font-size: 1.2rem; color: #b22626; font-family: \'Outfit\', sans-serif;">Não foi possível carregar as notícias. A API do Fortnite está instável. Tente novamente mais tarde.</p>';
+                return;
+            }
+        }
+    }
+    
+    if (loader) loader.classList.add('hidden');
+    
+    if (responseData && responseData.status === 200) {
+        newsData = responseData.data;
+        renderNews();
+    } else {
+        if (grid) grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; font-size: 1.2rem; color: #b22626; font-family: \'Outfit\', sans-serif;">Erro ao carregar as notícias. Tente novamente mais tarde.</p>';
+    }
+}
+
+function renderNews() {
+    const grid = document.getElementById('news-grid');
+    if (!grid) return;
+    grid.innerHTML = '';
+    
+    if (!newsData) return;
+    
+    const brList = newsData.br?.motds || [];
+    const stwList = newsData.stw?.messages || newsData.stw?.motds || [];
+    const creativeList = newsData.creative?.motds || newsData.creative?.messages || [];
+    
+    const taggedBr = brList.map(item => ({ ...item, category: 'br', categoryLabel: 'Battle Royale' }));
+    const taggedStw = stwList.map(item => ({ ...item, category: 'stw', categoryLabel: 'Salvar o Mundo' }));
+    const taggedCreative = creativeList.map(item => ({ ...item, category: 'creative', categoryLabel: 'Criativo' }));
+    
+    let allNews = [];
+    if (activeFilter === 'all') {
+        allNews = [...taggedBr, ...taggedStw, ...taggedCreative];
+    } else if (activeFilter === 'br') {
+        allNews = taggedBr;
+    } else if (activeFilter === 'stw') {
+        allNews = taggedStw;
+    } else if (activeFilter === 'creative') {
+        allNews = taggedCreative;
+    }
+    
+    allNews = allNews.filter(item => item && item.title && !item.hidden);
+    
+    if (allNews.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center; font-size: 1.2rem; color: var(--text-secondary); font-family: \'Outfit\', sans-serif;">Nenhuma notícia encontrada nesta categoria.</p>';
+        return;
+    }
+    
+    allNews.sort((a, b) => (b.sortingPriority || 0) - (a.sortingPriority || 0));
+    
+    const fragment = document.createDocumentFragment();
+    
+    allNews.forEach((news, idx) => {
+        const card = document.createElement('div');
+        card.className = `news-card`;
+        card.style.animationDelay = `${(idx % 15) * 0.05}s`;
+        
+        let imageSrc = news.image || news.tileImage || 'https://via.placeholder.com/360x203.png?text=Not%C3%ADcia+Fortnite';
+        
+        if (!isLocal && imageSrc && !imageSrc.includes('placeholder.com')) {
+            imageSrc = `https://wsrv.nl/?url=${encodeURIComponent(imageSrc)}`;
+        }
+        
+        card.innerHTML = `
+            <div class="news-image-container">
+                <img src="${imageSrc}" alt="${news.title}" class="news-image" loading="lazy" onerror="this.src='https://via.placeholder.com/360x203.png?text=Erro+na+Imagem'">
+            </div>
+            <div class="news-info">
+                <span class="news-badge category-${news.category}">${news.categoryLabel}</span>
+                <h3 class="news-title">${news.title}</h3>
+                <p class="news-body">${news.body || ''}</p>
+            </div>
+        `;
+        
+        fragment.appendChild(card);
+    });
+    
+    grid.appendChild(fragment);
 }

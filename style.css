@@ -1,33 +1,35 @@
 :root {
-    --bg-dark: #0f0f13;
-    --bg-gradient-top: #1e1e2d;
-    --text-primary: #ffffff;
-    --text-secondary: #a0a0b0;
-    --card-bg: rgba(255, 255, 255, 0.03);
-    --card-border: rgba(255, 255, 255, 0.08);
-    --accent-blue: #00d2ff;
-    --accent-blue-dark: #3a7bd5;
+    --bg-dark: #0e0a07;
+    --bg-gradient-top: #2b170c;
+    --text-primary: #f5ece2;
+    --text-secondary: #c1a893;
+    --card-bg: linear-gradient(135deg, #20140d 0%, #110905 100%);
+    --card-border: #42281a;
+    --accent-gold: #e2b34a;
+    --accent-gold-dark: #9a6f23;
+    --accent-amber: #e65c00;
+    --accent-bronze: #8c5230;
     
-    /* Rarity Colors */
-    --common: #b1b1b1;
-    --uncommon: #8cde29;
-    --rare: #36b0ff;
-    --epic: #d15ceb;
-    --legendary: #f28b18;
-    --mythic: #e2c949;
-    --marvel: #e82c2c;
-    --dark: #e036ff;
-    --gaming: #4a36ff;
-    --icon: #36ffc2;
-    --starwars: #2264e6;
+    /* Rarity Colors adapted for rustic integration */
+    --common: #8f8279;
+    --uncommon: #6e963b;
+    --rare: #3b88ab;
+    --epic: #a356bf;
+    --legendary: #cc7829;
+    --mythic: #d4a017;
+    --marvel: #b22626;
+    --dark: #a32dbf;
+    --gaming: #3b2dbf;
+    --icon: #2dbfa0;
+    --starwars: #2256b3;
 }
 
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Arvo', 'Outfit', serif;
     background-color: var(--bg-dark);
-    background-image: radial-gradient(circle at 50% -10%, var(--bg-gradient-top) 0%, var(--bg-dark) 80%);
+    background-image: radial-gradient(circle at 50% 0%, var(--bg-gradient-top) 0%, var(--bg-dark) 75%);
     background-attachment: fixed;
     color: var(--text-primary);
     min-height: 100vh;
@@ -35,110 +37,128 @@ body {
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 10px;
 }
 ::-webkit-scrollbar-track {
     background: var(--bg-dark);
 }
 ::-webkit-scrollbar-thumb {
-    background: #333;
+    background: #25160e;
+    border: 2px solid var(--bg-dark);
     border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--accent-blue);
+    background: var(--accent-gold);
 }
 
 .hero-header {
     text-align: center;
     padding: 4rem 1rem 3rem;
-    background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, transparent 100%);
+    background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, transparent 100%);
     position: relative;
     z-index: 10;
 }
 
 .glow-text {
-    font-family: 'Teko', sans-serif;
-    font-size: 5rem;
+    font-family: 'Cinzel', 'Teko', serif;
+    font-size: 4.5rem;
+    font-weight: 900;
     line-height: 1;
     margin: 0 0 1rem 0;
-    letter-spacing: 2px;
-    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-blue-dark) 100%);
+    letter-spacing: 3px;
+    background: linear-gradient(to bottom, #fff6eb 0%, #e2b34a 45%, #9a6f23 80%, #563b0e 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px rgba(0, 210, 255, 0.4);
+    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.8), 0 0 30px rgba(230, 92, 0, 0.35);
     animation: fadeInDown 1s ease-out;
 }
 
 #date-display {
-    font-size: 1.2rem;
-    font-weight: 300;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 600;
     color: var(--text-secondary);
     text-transform: uppercase;
-    letter-spacing: 1.5px;
+    letter-spacing: 2px;
     margin: 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.6);
     animation: fadeIn 1.5s ease-out;
 }
 
 .countdown-container {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
     display: inline-flex;
     flex-direction: column;
     align-items: center;
-    background: rgba(0, 210, 255, 0.1);
-    padding: 0.5rem 1.5rem;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 210, 255, 0.3);
+    background: linear-gradient(180deg, #25160e, #180e09);
+    padding: 0.6rem 1.8rem;
+    border-radius: 6px;
+    border: 2px solid #5a3821;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5), inset 0 0 10px rgba(0,0,0,0.8);
     animation: fadeIn 2s ease-out;
 }
 
 #countdown-label {
     font-size: 0.8rem;
-    color: var(--accent-blue);
+    color: var(--accent-gold);
     text-transform: uppercase;
     letter-spacing: 2px;
-    font-weight: 600;
+    font-weight: 800;
 }
 
 #countdown-timer {
     font-family: 'Teko', sans-serif;
-    font-size: 2.5rem;
+    font-size: 2.8rem;
     line-height: 1;
     font-weight: 700;
     color: #ffffff;
-    text-shadow: 0 0 10px rgba(0, 210, 255, 0.5);
-    letter-spacing: 2px;
+    text-shadow: 0 0 10px var(--accent-amber);
+    letter-spacing: 3px;
 }
 
 .shop-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
     padding: 2rem;
     max-width: 1600px;
     margin: 0 auto;
 }
 
 .section-title {
-    font-family: 'Teko', sans-serif;
-    font-size: 3.5rem;
+    font-family: 'Cinzel', 'Teko', serif;
+    font-weight: 700;
+    font-size: 3rem;
     grid-column: 1 / -1;
-    margin: 2rem 0 0rem;
+    margin: 2.5rem 0 0.5rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    border-bottom: 2px solid var(--card-border);
+    letter-spacing: 3px;
+    border-bottom: 2px solid #42281a;
     padding-bottom: 0.5rem;
-    color: var(--text-primary);
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+    color: #f5ece2;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background-color: var(--accent-gold);
+    box-shadow: 0 0 8px var(--accent-amber);
 }
 
 /* Item Card */
 .item-card {
     background: var(--card-bg);
-    border-radius: 20px;
+    border-radius: 8px;
     overflow: hidden;
     position: relative;
-    border: 1px solid var(--card-border);
-    backdrop-filter: blur(10px);
+    border: 2px solid var(--card-border);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     display: flex;
     flex-direction: column;
@@ -146,10 +166,10 @@ body {
 }
 
 .item-card:hover {
-    transform: translateY(-12px) scale(1.02);
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 
-                0 0 20px var(--hover-glow, rgba(0, 210, 255, 0.2));
+    transform: translateY(-8px) scale(1.01);
+    border-color: var(--accent-gold);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.7), 
+                0 0 25px var(--hover-glow, rgba(230, 92, 0, 0.3));
     z-index: 2;
 }
 
@@ -158,7 +178,8 @@ body {
     aspect-ratio: 1;
     position: relative;
     overflow: hidden;
-    background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(255,255,255,0.02) 0%, transparent 80%),
+                linear-gradient(to bottom, #170d08, #0b0604);
 }
 
 .item-image {
@@ -166,16 +187,16 @@ body {
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+    filter: drop-shadow(0 8px 12px rgba(0,0,0,0.6));
 }
 
 .item-card:hover .item-image {
-    transform: scale(1.1);
+    transform: scale(1.08);
 }
 
 .item-info {
-    padding: 1rem;
-    background: linear-gradient(to top, rgba(0,0,0,0.9) 10%, rgba(0,0,0,0.4) 80%, transparent);
+    padding: 1.2rem 1rem 1rem;
+    background: linear-gradient(to top, rgba(14, 9, 6, 1) 0%, rgba(14, 9, 6, 0.85) 45%, rgba(14, 9, 6, 0.3) 80%, transparent 100%);
     position: absolute;
     bottom: 0;
     width: 100%;
@@ -184,21 +205,24 @@ body {
 }
 
 .item-name {
-    font-family: 'Teko', sans-serif;
-    font-size: 1.6rem;
+    font-family: 'Cinzel', 'Teko', serif;
+    font-size: 1.4rem;
     font-weight: 700;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 0.4rem 0;
     line-height: 1.1;
     letter-spacing: 1px;
     text-transform: uppercase;
+    color: #ffffff;
+    text-shadow: 1px 1px 2px #000;
 }
 
 .item-type {
-    font-size: 0.8rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
     display: block;
 }
 
@@ -208,12 +232,12 @@ body {
     gap: 6px;
     font-size: 1.1rem;
     font-weight: 800;
-    color: #fff;
-    background: rgba(0,0,0,0.5);
-    padding: 4px 10px;
-    border-radius: 8px;
+    color: var(--accent-gold);
+    background: #25160e;
+    padding: 4px 12px;
+    border-radius: 4px;
     display: inline-flex;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid #4a2815;
 }
 
 .vbucks-icon {
@@ -223,13 +247,13 @@ body {
 
 .price-strike {
     text-decoration: line-through;
-    color: #ff4757;
+    color: #b22626;
     font-size: 0.9rem;
     margin-left: 8px;
     font-weight: 600;
 }
 
-/* Rarity specific styling */
+/* Rarity specific styling - warm wood bottom trims */
 .rarity-common { --hover-glow: var(--common); border-bottom: 4px solid var(--common); }
 .rarity-uncommon { --hover-glow: var(--uncommon); border-bottom: 4px solid var(--uncommon); }
 .rarity-rare { --hover-glow: var(--rare); border-bottom: 4px solid var(--rare); }
@@ -255,17 +279,207 @@ body {
     width: 60px;
     height: 60px;
     border: 4px solid var(--card-border);
-    border-top-color: var(--accent-blue);
+    border-top-color: var(--accent-gold);
     border-radius: 50%;
     animation: spin 1s cubic-bezier(0.55, 0.15, 0.45, 0.85) infinite;
     margin-bottom: 1.5rem;
+    box-shadow: 0 0 15px rgba(226, 179, 74, 0.2);
 }
 
 .loader-container p {
+    font-family: 'Outfit', sans-serif;
     font-size: 1.2rem;
     color: var(--text-secondary);
     letter-spacing: 1px;
     animation: pulse 2s infinite;
+}
+
+/* Navigation Tabs */
+.rustic-nav {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin: 1rem auto 2.5rem;
+    max-width: 800px;
+    padding: 0 1.5rem;
+}
+
+.nav-tab {
+    font-family: 'Cinzel', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    background: linear-gradient(to bottom, #2b170c, #190e07);
+    border: 3px solid #4a2815;
+    border-radius: 4px;
+    padding: 0.8rem 2rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.nav-tab:hover {
+    color: #ffffff;
+    border-color: #7d4424;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5), 0 0 10px rgba(230, 92, 0, 0.35);
+}
+
+.nav-tab.active {
+    color: #ffffff;
+    background: linear-gradient(to bottom, #4a2815, #2d160a);
+    border-color: var(--accent-gold);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 
+                0 0 15px var(--accent-amber),
+                inset 0 0 8px rgba(255,255,255,0.1);
+    text-shadow: 0 0 8px var(--accent-amber);
+    animation: pulseGlow 3s infinite alternate;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 12px var(--accent-amber);
+    }
+    100% {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6), 0 0 20px var(--accent-amber), 0 0 3px var(--accent-gold);
+    }
+}
+
+/* News Section Styles */
+.news-view {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.news-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 2.5rem;
+}
+
+.news-filter-btn {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    background: #1a100a;
+    border: 1px solid #3c2415;
+    border-radius: 4px;
+    padding: 0.6rem 1.4rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.news-filter-btn:hover {
+    color: #ffffff;
+    background: #2b1a11;
+    border-color: #5c3a21;
+}
+
+.news-filter-btn.active {
+    color: #ffffff;
+    background: var(--accent-bronze);
+    border-color: var(--accent-gold);
+    box-shadow: 0 0 10px rgba(230, 92, 0, 0.2);
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    gap: 2rem;
+}
+
+.news-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+    animation: zoomIn 0.5s ease-out backwards;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent-gold);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(230, 92, 0, 0.15);
+}
+
+.news-image-container {
+    width: 100%;
+    aspect-ratio: 16/9;
+    overflow: hidden;
+    position: relative;
+    border-bottom: 2px solid var(--card-border);
+    background-color: #0b0604;
+}
+
+.news-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.news-card:hover .news-image {
+    transform: scale(1.05);
+}
+
+.news-info {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    background: linear-gradient(to bottom, #1d120a, #110905);
+}
+
+.news-badge {
+    align-self: flex-start;
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #ffffff;
+    background-color: var(--accent-bronze);
+    padding: 3px 10px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.8rem;
+    border: 1px solid rgba(255,255,255,0.15);
+}
+
+.news-badge.category-br { background-color: #8c5230; }
+.news-badge.category-stw { background-color: #2c5a73; }
+.news-badge.category-creative { background-color: #6a357a; }
+
+.news-title {
+    font-family: 'Cinzel', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin: 0 0 0.8rem 0;
+    line-height: 1.3;
+}
+
+.news-body {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    color: #bdab9c;
+    line-height: 1.5;
+    margin: 0;
+    flex-grow: 1;
 }
 
 /* Animations */
@@ -300,8 +514,8 @@ body {
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(10, 10, 15, 0.95);
-    backdrop-filter: blur(20px);
+    background: rgba(14, 10, 7, 0.98);
+    backdrop-filter: blur(25px);
     z-index: 1000;
     display: flex;
     flex-direction: column;
@@ -315,25 +529,27 @@ body {
     position: absolute;
     top: 2rem;
     left: 2rem;
-    background: transparent;
-    border: 2px solid rgba(255,255,255,0.2);
-    color: white;
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.2rem;
-    font-weight: 800;
+    background: linear-gradient(to bottom, #2b170c, #190e07);
+    border: 2px solid #5a3821;
+    color: var(--text-primary);
+    font-family: 'Cinzel', serif;
+    font-size: 1rem;
+    font-weight: 700;
     padding: 0.8rem 2rem;
-    border-radius: 50px;
+    border-radius: 4px;
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 1001;
     text-transform: uppercase;
     letter-spacing: 2px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
 }
 
 .btn-back:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: white;
-    transform: translateX(-5px);
+    background: #4a2815;
+    border-color: var(--accent-gold);
+    transform: translateX(-4px);
+    box-shadow: 0 4px 15px rgba(230, 92, 0, 0.3);
 }
 
 .detail-content {
@@ -356,7 +572,7 @@ body {
     max-width: 100%;
     max-height: 70vh;
     object-fit: contain;
-    filter: drop-shadow(0 0 30px rgba(0, 210, 255, 0.4));
+    filter: drop-shadow(0 0 35px rgba(226, 179, 74, 0.3));
     animation: float 4s ease-in-out infinite;
     transition: filter 0.3s ease;
 }
@@ -365,11 +581,12 @@ body {
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 1.2rem;
 }
 
 .detail-type {
-    font-size: 1.5rem;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.3rem;
     color: var(--text-secondary);
     text-transform: uppercase;
     letter-spacing: 3px;
@@ -377,24 +594,27 @@ body {
 }
 
 .detail-name {
-    font-family: 'Teko', sans-serif;
-    font-size: 5rem;
-    line-height: 1;
+    font-family: 'Cinzel', serif;
+    font-size: 4rem;
+    font-weight: 900;
+    line-height: 1.1;
     margin: 0;
-    text-shadow: 0 0 20px rgba(255,255,255,0.2);
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
 }
 
 .detail-description {
+    font-family: 'Outfit', sans-serif;
     font-size: 1.2rem;
-    color: #ccc;
+    color: #bdab9c;
     font-style: italic;
     line-height: 1.6;
 }
 
 .detail-set {
+    font-family: 'Outfit', sans-serif;
     font-size: 1.1rem;
-    color: var(--accent-blue);
-    font-weight: 600;
+    color: var(--accent-gold);
+    font-weight: 700;
     text-transform: uppercase;
 }
 
@@ -406,11 +626,13 @@ body {
     font-family: 'Teko', sans-serif;
     font-weight: 700;
     margin-top: 1rem;
-    background: rgba(0,0,0,0.4);
-    padding: 10px 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(255,255,255,0.1);
+    background: #20140d;
+    padding: 10px 25px;
+    border-radius: 4px;
+    border: 2px solid #4a2815;
     width: fit-content;
+    color: var(--accent-gold);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
 }
 
 @keyframes float {
@@ -427,7 +649,7 @@ body {
     }
     
     .detail-name {
-        font-size: 3.5rem;
+        font-size: 3rem;
     }
     
     .detail-price-container {
@@ -442,15 +664,28 @@ body {
 
 @media (max-width: 768px) {
     .glow-text {
-        font-size: 3.5rem;
+        font-size: 3rem;
+    }
+    .rustic-nav {
+        flex-direction: column;
+        gap: 0.8rem;
+        align-items: stretch;
+    }
+    .nav-tab {
+        padding: 0.6rem 1.5rem;
+        font-size: 1rem;
     }
     .shop-grid {
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+        gap: 1.2rem;
         padding: 1rem;
     }
+    .news-grid {
+        grid-template-columns: 1fr;
+        padding: 0 0.5rem;
+    }
     .item-name {
-        font-size: 1.5rem;
+        font-size: 1.2rem;
     }
     .item-price {
         font-size: 1rem;
